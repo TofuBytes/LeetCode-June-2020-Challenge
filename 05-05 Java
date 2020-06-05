@@ -1,0 +1,44 @@
+/* Given an array w of positive integers, where w[i] describes the weight of index i, 
+write a function pickIndex which randomly picks an index in proportion to its weight. */
+
+class Solution {
+
+    private ArrayList<Integer> p;  
+    private int sum;
+    
+    public Solution(int[] w) {
+        p = new ArrayList<>();
+        
+        //add sums
+        for(int x = 0; x < w.length; x++){
+            sum+= w[x];
+            p.add(sum);
+        }
+    }
+    
+    public int pickIndex() {
+        //generate a random number from 0 - highest val
+        double ran = Math.random()*p.get(p.size()-1); 
+        //create a value for previous 
+        int start = 0; 
+        int index = -1; 
+        //run through sorted array
+        for(int x = 0; x < p.size() && index == -1; x++){
+            int current = p.get(x);
+            //if the number is in between prev and current
+            if(start < ran && ran <= current){
+                //exit loop and update index
+                index = x; 
+            }
+            //update previous val to current
+            start = current; 
+        }
+         return index; 
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(w);
+ * int param_1 = obj.pickIndex();
+ */
