@@ -1,0 +1,95 @@
+/* Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of
+people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
+ */
+
+class Solution {
+    
+ public int[][] reconstructQueue(int[][] people) {
+    int[][] result = new int[people.length][];
+    ArrayList<int[]> sortt = new ArrayList<int[]>();
+    ArrayList<int[]> resList = new ArrayList<int[]>();
+     
+    sortByHeight(people,sortt);
+     for(int x = sortt.size()-1; x >= 0; x--){
+         int[] elem = sortt.get(x);
+         if(resList.isEmpty()){
+             resList.add(elem);
+         }
+         else{
+             findInsert(elem, resList);
+         }
+     }
+     
+     for(int y = 0; y < result.length; y++){
+         result[y] = resList.get(y);
+     }
+     
+     return result; 
+
+}
+    
+    
+private void findInsert(int[] elem, ArrayList<int[]> resList){
+    boolean added = false;
+    int numBigger = 0; 
+    for(int x = 0; x < resList.size() && !added; x++){
+        int[] current = resList.get(0);
+        if(elem[1] == numBigger){
+            if(current[0] == elem[0]){
+                if(current[1] < elem[1]){
+                    resList.add(x,elem);
+                    added = true; 
+                }                
+                     
+            }
+            else if(current[0] > elem[0]){
+                resList.add(x,elem);
+                added = true; 
+            }
+        }
+        else if(current[0] >= elem[0]){
+            numBigger++;
+        }
+    }
+    if(!added){
+        resList.add(elem);
+    }
+}
+
+private void sortByHeight(int[][] people, ArrayList<int[]> sortt){
+    for(int x = 0; x < people.length; x++){
+        int[] temp = people[x]; 
+        if(sortt.isEmpty()){
+            sortt.add(temp);
+        }
+        else{
+            sortThis(sortt, temp);
+        }
+    }
+}
+
+private void sortThis(ArrayList<int[]> sortt, int[] temp){
+    boolean added = false; 
+    for(int x = 0; x < sortt.size() && !added; x++){
+        int[] elem = sortt.get(x);
+        //if elem is greater than then insert before
+        if(elem[0] > temp[0]){
+            sortt.add(x, temp);
+            added = true; 
+        }
+        //if equal value 
+        else if(elem[0] == temp[0]){
+            //if temp is greater then insert else move on 
+            if(temp[1] > elem[1]){
+                sortt.add(x,temp);
+                added = true; 
+            }
+        }
+    }
+    if(!added){
+        sortt.add(temp);
+    }
+}
+    
+    
+}
