@@ -14,3 +14,48 @@ class Solution {
         return index; 
     }
 }
+
+
+/* Recommended solution */
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        
+        int i =0;
+        
+        while(i< nums.length) {
+            if(nums[i] == target) {
+                return i;
+            }else if(nums[i] < target) {
+                i++;
+            }else if(nums[i] > target) {
+                return i;
+            }
+        }
+        
+        
+            return i++;
+    }
+}
+
+/* Binary Search Solution */
+class Colution{
+public int searchInsert(int[] nums, int target){
+    int start = 0; 
+    int end = nums.length -1;
+    
+    while(start <= end){
+    int mid = start + (end-start)/2;
+    
+        if(nums[mid] == target){
+            return mid;
+        }
+        else if (nums[mid] < target){
+            start++;
+        }
+        else{
+         end--;
+        }
+   }
+   return start;
+  }
+}
